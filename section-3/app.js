@@ -5,12 +5,23 @@ const url=req.url;
 const method=req.method;
 if(url==='/'){
     res.setHeader('Content-Type','text/html');
-    res.write('<html><head><title>Enter message</title><body><form action="/message" method="POST"><input type="text"><button type="submit">Send</button></form></body></head></html>');
+    res.write('<html><head><title>Enter message</title><body><form action="/message" method="POST"><input type="text" name="message"><button type="submit">Send</button></form></body></head></html>');
    return res.end(); //this will quit the function execution 
 }
     if(url==='/message' && method==='POST'){
-      req.on('')
-     fs.writeFileSync('message.txt','Dummay ');
+        const body=[];
+       req.on('data',(chunk)=>{
+           console.log(chunk);
+          body.push(chunk);
+
+      });
+
+      req.on('end',()=>{
+         const parsedBody=Buffer.concat(body).toString();
+         const message=parsedBody.split('=')[1];
+         fs.writeFileSync('message.txt',message);
+      });
+     
      res.statusCode=302;
      res.setHeader('Location','/');
       return res.end(); 
