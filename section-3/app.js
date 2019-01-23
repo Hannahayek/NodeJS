@@ -9,6 +9,7 @@ if(url==='/'){
    return res.end(); //this will quit the function execution 
 }
     if(url==='/message' && method==='POST'){
+      req.on('')
      fs.writeFileSync('message.txt','Dummay ');
      res.statusCode=302;
      res.setHeader('Location','/');
