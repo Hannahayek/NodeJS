@@ -52,7 +52,24 @@ console.log(reverse(-1235));
 
 
  //find first unique caharcters
+/*  s = "leetcode"
+ return 0.
+ 
+ s = "loveleetcode",
+ return 2. */
 
+ 
  var firstUniqChar = function(s) {
-    
+ let a=s.toString().split('');
+ let len=a.length;
+for(var i=0;i<len;i++){
+    if(a.indexOf(a[i])===a.lastindexOf(a[i])){
+        return a[i];
+    }
+    return -1;
+}
+
+
 };
+var word="loveleetcode";
+firstUniqChar(word);
