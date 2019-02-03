@@ -112,6 +112,24 @@ LinkedList.prototype.remove=function(val){
 
 };
 
+
+
+LinkedList.prototype.reverse = function() {
+    var curr = this.head;
+    var next = null;
+    var prev = null;
+    
+    while(curr) {
+      next = curr.next;
+      
+      curr.next = prev;
+      
+      prev = curr;
+    
+      curr = next;
+    }
+    this.head = prev;
+  };
 LinkedList.prototype.print=function(){
     let output='[';
     let current=this.head;
@@ -131,9 +149,6 @@ list.append(8);
 list.append(10);
 list.append(11);
 list.append(12);
-list.prepend(13);
-console.log(list.contains(1));
-list.remove(10);
-
 console.log(list.print());
-console.log(list.size());
+list.reverse();
+console.log(list.print());
