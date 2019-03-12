@@ -1,8 +1,19 @@
 const http = require('http');
-const fs = require('fs');
+const express=require('express')
 
-const routes=require('./routes');
+const app=express();
 
-const server = http.createServer(routes);  //will exexute function for incoming requestsn
+//to add middleware function will executed with every incoming request
+app.use((req,res,next)=>{
+console.log("in the middleware!");
+next(); //allows the request to continue to next middle ware
+}); 
+
+app.use((req,res,next)=>{
+console.log("another middleware")
+res.send("<html>Hello from response</html>"); //allows to send a response
+});
+
+const server = http.createServer(app);  //will exexute function for incoming requestsn
 
 server.listen(3000);
