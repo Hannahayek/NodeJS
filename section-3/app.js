@@ -10,6 +10,9 @@ const app=express();
 
 app.use(bodyParser.urlencoded({extended:false}));// will do body parse for us
 
+//to expose public folder like css
+app.use(express.static(path.join(__dirname,'public')));
+
 //order matters  the / should be last
 //any start with admin take admin routes
 app.use('/admin',adminRoutes)
