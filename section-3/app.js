@@ -1,38 +1,33 @@
-const http = require('http');
-const express=require('express');
-const path=require('path');
-const expressHbs=require('express-handlebars');
+const path = require('path');
 
-const adminRoutes=require('./routes/admin')
-const shopRoutes=require('./routes/shop');
-const bodyParser=require('body-parser'); //npm install --save body-parser
-const app=express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const expressHbs = require('express-handlebars');
 
-// for pug
-//app.set('view engine','pug');
-//app.set('views','views');
+const app = express();
 
-//handle bars
-app.engine('hbs',expressHbs());
-app.set('view engine','hbs'); //the name we use here, for example hbs. the pages should end with .hbs
-app.set('views','views');
+app.engine(
+  'hbs',
+  expressHbs({
+    layoutsDir: 'views/layouts/',
+    defaultLayout: 'main-layout',
+    extname: 'hbs'
+  })
+);
+app.set('view engine', 'hbs');
+app.set('views', 'views');
 
-app.use(bodyParser.urlencoded({extended:false}));// will do body parse for us
+const adminData = require('./routes/admin');
+const shopRoutes = require('./routes/shop');
 
-//to expose public folder like css
-app.use(express.static(path.join(__dirname,'public')));
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, 'public')));
 
-//order matters  the / should be last
-//any start with admin take admin routes
-app.use('/admin',adminRoutes.routes)
+app.use('/admin', adminData.routes);
 app.use(shopRoutes);
 
-//set error page 
-app.use((req,res,next)=>{
-res.status(404).render('404',{docTitle:'Page Not Found'});
+app.use((req, res, next) => {
+  res.status(404).render('404', { pageTitle: 'Page Not Found' });
 });
-
-
-
 
 app.listen(3000);

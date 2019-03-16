@@ -1,27 +1,23 @@
-const express=require('express');
+const path = require('path');
 
-const path=require('path');
+const express = require('express');
 
-const rootDir=require('../helpers/path');
+const rootDir = require('../util/path');
 
-const router=express.Router();
+const router = express.Router();
 
-const products=[];
-// /admin/add-product =>Get
-router.get('/add-product',(req,res,next)=>{
-    
-    res.render('add-product',{docTitle:'Add Product',path:'/admin/add-product'})
-     }); 
+const products = [];
 
-  // /admin/add-product =>post   
- //we change to post to trigger only with post request
- router.post('/add-product',(req,res,next)=>{
- products.push({title:req.body.title});
- res.redirect('/');
- });
+// /admin/add-product => GET
+router.get('/add-product', (req, res, next) => {
+  res.render('add-product', { pageTitle: 'Add Product', path: '/admin/add-product', formsCSS: true, productCSS: true, activeAddProduct: true });
+});
 
+// /admin/add-product => POST
+router.post('/add-product', (req, res, next) => {
+  products.push({ title: req.body.title });
+  res.redirect('/');
+});
 
- //module.exports=router;
-
- exports.routes=router;
- exports.products=products;
+exports.routes = router;
+exports.products = products;
