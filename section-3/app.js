@@ -15,7 +15,7 @@ app.use(express.static(path.join(__dirname,'public')));
 
 //order matters  the / should be last
 //any start with admin take admin routes
-app.use('/admin',adminRoutes)
+app.use('/admin',adminRoutes.routes)
 app.use(shopRoutes);
 
 //set error page 
