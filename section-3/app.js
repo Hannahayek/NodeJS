@@ -1,13 +1,20 @@
 const http = require('http');
 const express=require('express');
 const path=require('path');
+const expressHbs=require('express-handlebars');
 
 const adminRoutes=require('./routes/admin')
 const shopRoutes=require('./routes/shop');
 const bodyParser=require('body-parser'); //npm install --save body-parser
 const app=express();
 
-app.set('view engine','pug');
+// for pug
+//app.set('view engine','pug');
+//app.set('views','views');
+
+//handle bars
+app.engine('hbs',expressHbs());
+app.set('view engine','hbs'); //the name we use here, for example hbs. the pages should end with .hbs
 app.set('views','views');
 
 app.use(bodyParser.urlencoded({extended:false}));// will do body parse for us
