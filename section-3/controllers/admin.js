@@ -15,6 +15,7 @@ exports.getAddProduct = (req, res, next) => {
     const price=req.body.price;  
     const description=req.body.description;    
     const product = new Product(title,imageUrl,description,price);
+    console.log(product);
     product.save();
     res.redirect('/');
   };
