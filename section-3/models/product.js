@@ -24,5 +24,7 @@ module.exports = class Product {
   }
 
   static findById(id) {
+
+    return db.execute('select * from products where products.id=?',[id]);
   }
 };
