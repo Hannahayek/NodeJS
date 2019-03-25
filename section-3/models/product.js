@@ -11,9 +11,9 @@ module.exports = class Product {
     this.price = price;
   }
 
-  save() {
-  
-  }
+  save() {   //we use ? to avoid sql injection
+ return db.execute('insert into products (title,price,imageUrl,description) values(?,?,?,?)',[this.title,this.price,this.description,this.imageUrl]);
+  };
 
   static deleteById(id) {
   
