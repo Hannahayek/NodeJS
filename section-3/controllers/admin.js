@@ -32,7 +32,7 @@ exports.getEditProduct = (req, res, next) => {
     return res.redirect('/');
   }
   const prodId = req.params.productId;
-  Product.findById(prodId, product => {
+  Product.findByPk(prodId).then(product => {
     if (!product) {
       return res.redirect('/');
     }
@@ -51,15 +51,22 @@ exports.postEditProduct = (req, res, next) => {
   const updatedPrice = req.body.price;
   const updatedImageUrl = req.body.imageUrl;
   const updatedDesc = req.body.description;
-  const updatedProduct = new Product(
-    prodId,
-    updatedTitle,
-    updatedImageUrl,
-    updatedDesc,
-    updatedPrice
-  );
-  updatedProduct.save();
-  res.redirect('/admin/products');
+  Product.findByPk(prodId)
+  .then(product=>{
+    product.title=updatedTitle;
+    product.price=updatedPrice;
+    product.description=updatedDesc;
+    product.imageUrl=updatedImageUrl;
+  return product.save();
+   
+  })
+  .then( result=>{
+    console.log("updated Product")
+    res.redirect('/admin/products');
+  })    //another then to catch any error from getting product or save
+  .catch(err =>console.log(err));
+  
+
 };
 
 exports.getProducts = (req, res, next) => {
