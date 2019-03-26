@@ -53,10 +53,10 @@ Product.belongsToMany(Cart,{through:CartItem});
 
 
 //below will look all models defined and creates tables //force:true will force override
-//sync({force:true}) to force database
+//sync({force:true}) to force database update
 //below code for user will create dummy user
 sequalize
-.sync({force:true})
+.sync()
 .then(result =>{
     return User.findByPk(1);
     //console.log(result);
@@ -70,6 +70,9 @@ sequalize
 })
 .then(user=>{
    // console.log(user);
+   return user.createCart();
+    //app.listen(3000)
+}). then(cart=>{
     app.listen(3000)
 })
 .catch(err => {
