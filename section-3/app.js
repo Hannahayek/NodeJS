@@ -3,6 +3,9 @@ const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
 
+const Product=require('./models/product');
+const User=require('./models/user');
+
 const sequalize=require('./util/database');
 
 const errorController = require('./controllers/error');
@@ -25,9 +28,17 @@ app.use(shopRoutes);
 app.use(errorController.get404);
 
 
-//below will look all models defined and creates tables
+//for relation ship in database
+Product.belongsTo(User,{constraints:true,onDelete:'CASCADE'});
+
+
+//or for relation
+//User.hasMany(Product)
+
+
+//below will look all models defined and creates tables //force:true will force override
 sequalize.
-sync().then(result =>{
+sync({force:true}).then(result =>{
     //console.log(result);
     app.listen(3000);
 })
