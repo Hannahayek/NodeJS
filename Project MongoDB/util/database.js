@@ -1,17 +1,15 @@
-/* const mysql=require('mysql2');
-const pool=mysql.createPool({
-   host:'localhost',
-   user:'root',
-   database:'nodejs',
-   password:'Hk@password'
-});
+const mongodb=require('mongodb');
 
-module.exports=pool.promise(); */
+const MongoClient=mongodb.MongoClient;
 
-const Sequelize=require('sequelize');
-const sequelize=new Sequelize('nodejs','root','Hk@password',
-{dialect:'mysql',
-host:'localhost'});
+const mongoConnect=callback =>{
+   MongoClient.connect('mongodb+srv://hannahayek:GTfcVZ7hTEJS3mY@cluster0-gdrrc.mongodb.net/test?retryWrites=true')
+   .then(client =>{
+      console.log("Connected");
+      callback(client);
+   }).catch(err=>{
+      console.log(err);
+   })
+}
 
-
-module.exports=sequelize;
+module.exports=mongoConnect;
