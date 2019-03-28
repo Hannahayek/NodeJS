@@ -5,7 +5,7 @@ const MongoClient=mongodb.MongoClient;
 let _db;
 
 const mongoConnect=callback =>{
-   MongoClient.connect('mongodb+srv://hannahayek:GTfcVZ7hTEJS3mY@cluster0-gdrrc.mongodb.net/shop?retryWrites=true')
+   MongoClient.connect('mongodb+srv://hannahayek:GTfcVZ7hTEJS3mY@cluster0-gdrrc.mongodb.net/shop?retryWrites=true', { useNewUrlParser: true })
    .then(client =>{
       console.log("Connected");
       _db=client.db();  //store connection
