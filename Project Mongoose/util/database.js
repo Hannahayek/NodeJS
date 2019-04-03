@@ -1,17 +1,27 @@
-/* const mysql=require('mysql2');
-const pool=mysql.createPool({
-   host:'localhost',
-   user:'root',
-   database:'nodejs',
-   password:'Hk@password'
-});
+const mongodb=require('mongodb');
 
-module.exports=pool.promise(); */
+const MongoClient=mongodb.MongoClient;
 
-const Sequelize=require('sequelize');
-const sequelize=new Sequelize('nodejs','root','Hk@password',
-{dialect:'mysql',
-host:'localhost'});
+let _db;
+
+const mongoConnect=callback =>{
+   MongoClient.connect('mongodb+srv://HannaMongo:Hk@password@cluster0-gepst.azure.mongodb.net/shop?retryWrites=true', { useNewUrlParser: true })
+   .then(client =>{
+      console.log("Connected");
+      _db=client.db();  //store connection
+      callback(client);
+   }).catch(err=>{
+      console.log(err);
+      throw err;
+   });
+};
 
 
-module.exports=sequelize;
+const getDb=()=>{
+   if(_db){
+      return _db
+   }
+   throw 'No Database found'
+};
+exports.mongoConnect=mongoConnect;
+exports.getDb=getDb;
