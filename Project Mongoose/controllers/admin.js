@@ -17,7 +17,9 @@ exports.postAddProduct = (req, res, next) => {
     title:title
     ,price:price
     ,description:description
-    ,imageUrl:imageUrl});
+    ,imageUrl:imageUrl
+    ,userId:req.user //this will store the user object and get the ID auto
+  });
   product
     .save()
     .then(result => {
