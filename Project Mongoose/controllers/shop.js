@@ -2,6 +2,8 @@ const Product = require('../models/product');
 
 exports.getProducts = (req, res, next) => {
   Product.find() //will get all products when used with mongoose
+  //.select('title price -_id) - to exelcude
+  //.populate('userId,'name')
     .then(products => {
       res.render('shop/product-list', {
         prods: products,
