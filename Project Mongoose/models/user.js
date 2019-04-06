@@ -73,8 +73,9 @@ userSchema.methods.addOrder=function(){
 }
 
 
-userSchema.methods.getOrders=function(){
- 
+userSchema.methods.clarCart=function(){
+ this.cart={items:[]};
+ return this.save();
 }
 module.exports=mongoose.model('User',userSchema);
 
