@@ -1,5 +1,5 @@
 const Product = require('../models/product');
-
+const Order=require('../models/order');
 exports.getProducts = (req, res, next) => {
   Product.find() //will get all products when used with mongoose
   //.select('title price -_id) - to exelcude
@@ -81,10 +81,24 @@ exports.postCartDeleteProduct = (req, res, next) => {
 };
 
 exports.postOrder = (req, res, next) => {
-  let fetchedCart;
   req.user
-    .addOrder()
-    .then(result => {
+  .populate('cart.items.productId')
+  .execPopulate()
+  .then(user => {
+    const products=user.cart.items.map(i =>{
+      return {quantity: i.quantity, product: i.productId}
+    });
+    const order=new Order({
+     
+      products: products ,//same as model order after we map
+      user:{
+        name:req.user.name,
+        userId:req.user
+      }
+      });
+     return order.save();
+  })
+ .then(result => {
       res.redirect('/orders');
     })
     .catch(err => console.log(err));
