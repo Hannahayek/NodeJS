@@ -1,14 +1,24 @@
+const mongoose=require('mongoose');
+const session=require('express-session');
+const MongoDBStore=require('connect-mongodb-session')(session);
+const MONGODB_URI='mongodb+srv://HannaMongo1:wf4F8LDwKgZvU8h@cluster0-gepst.mongodb.net/shop';
 const path = require('path');
 
 const express = require('express');
+
+const store= new MongoDBStore({
+  uri: MONGODB_URI,
+  collection:'sessions'
+});
+
 const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
 
 const User=require('./models/user');
 const app = express();
-const mongoose=require('mongoose');
-const session=require('express-session');
+
+
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -18,10 +28,17 @@ const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(
-  session({secret:'any long string we use here',resave:false,saveUninitialized:false}));
 
+app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(
+  session({
+    secret: 'any secret here will work',
+    resave: false,
+    saveUninitialized: false,
+    store: store
+  })
+);
 app.use((req, res, next) => {
   User.findById('5ca60e5c4e117e1eccb8818e')
     .then(user => {
@@ -39,7 +56,7 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 
-mongoose.connect('mongodb+srv://HannaMongo1:wf4F8LDwKgZvU8h@cluster0-gepst.mongodb.net/shop?retryWrites=true', { useNewUrlParser: true }).then(result=>{
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true }).then(result=>{
 User.findOne().then(user =>{
   if(!user){
     const user=new User({
