@@ -5,9 +5,10 @@ const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
 
-const User=require('./models/user')
+const User=require('./models/user');
 const app = express();
-const mongoose=require('mongoose')
+const mongoose=require('mongoose');
+const session=require('express-session');
 
 app.set('view engine', 'ejs');
 app.set('views', 'views');
@@ -18,6 +19,8 @@ const authRoutes = require('./routes/auth');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(
+  session({secret:'any long string we use here',resave:false,saveUninitialized:false}));
 
 app.use((req, res, next) => {
   User.findById('5ca60e5c4e117e1eccb8818e')
