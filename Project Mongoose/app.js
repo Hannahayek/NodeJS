@@ -61,20 +61,8 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 
-mongoose.connect(MONGODB_URI, { useNewUrlParser: true }).then(result=>{
-User.findOne().then(user =>{
-  if(!user){
-    const user=new User({
-      name:'Hanna',
-      email:'hayekhanna2@gmail.com',
-      cart:{
-        items:[]
-      }
-    })
-    user.save();
-  }
-});  
-
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
+.then(result=>{
   app.listen(3000);
 }).catch(err =>{
   console.log(err);
