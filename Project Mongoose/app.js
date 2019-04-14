@@ -5,6 +5,7 @@ const MONGODB_URI='mongodb+srv://HannaMongo1:wf4F8LDwKgZvU8h@cluster0-gepst.mong
 const MONGODB_URI1='mongodb://localhost:27017/shop';
 const path = require('path');
 const csrf=require('csurf');
+const flash=require('connect-flash');
 
 const express = require('express');
 
@@ -14,6 +15,8 @@ const store= new MongoDBStore({
 });
 
 const csrfProtection=csrf();
+
+
 
 const bodyParser = require('body-parser');
 
@@ -45,6 +48,8 @@ app.use(
 );
 // we initiliaze csrf after session
 app.use(csrfProtection);
+//to add data to session should be called after session
+app.use(flash());
 
 
 app.use((req,res,next) => {
