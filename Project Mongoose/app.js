@@ -61,6 +61,13 @@ app.use((req,res,next) => {
   .catch(err => console.log(err));
 });
 
+//middle ware to user all tokens in all views
+app.use((req,res,next)=>{
+  res.locals.isAuthenticated= req.session.isLoggedIn;
+  res.locals.csrfToken=req.csrfToken();
+  next();
+})
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
