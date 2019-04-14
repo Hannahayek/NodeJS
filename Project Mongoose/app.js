@@ -4,6 +4,7 @@ const MongoDBStore=require('connect-mongodb-session')(session);
 const MONGODB_URI='mongodb+srv://HannaMongo1:wf4F8LDwKgZvU8h@cluster0-gepst.mongodb.net/shop';
 const MONGODB_URI1='mongodb://localhost:27017/shop';
 const path = require('path');
+const csrf=require('csurf');
 
 const express = require('express');
 
@@ -11,6 +12,8 @@ const store= new MongoDBStore({
   uri: MONGODB_URI1,
   collection:'sessions'
 });
+
+const csrfProtection=csrf();
 
 const bodyParser = require('body-parser');
 
@@ -40,6 +43,9 @@ app.use(
     store: store
   })
 );
+// we initiliaze csrf after session
+app.use(csrfProtection);
+
 
 app.use((req,res,next) => {
 
