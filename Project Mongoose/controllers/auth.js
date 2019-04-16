@@ -9,7 +9,7 @@ const crypto=require('crypto');
 
 const transporter=nodemailer.createTransport(sendgridTransport({
   auth:{
-    api_key:'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'
+    api_key:'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'
   }
 }));
 
@@ -123,7 +123,7 @@ exports.postLogout = (req, res, next) => {
 };
 
 
-exports.getResett = (req, res, next) => {
+exports.getReset = (req, res, next) => {
   let message=req.flash('error');
   if(message.length>0){
     message=message[0] 
@@ -149,7 +149,7 @@ exports.postReset=(req,res,next)=>{
      User.findOne({email:req.body.email})
      .then(user =>{
        if(!user){
-         req.flash(error,'Email Account doesnt exist');
+         req.flash('error','Email Account doesnt exist');
          return res.redirect('/reset');
        }
        user.resetToken=token;
@@ -166,6 +166,8 @@ exports.postReset=(req,res,next)=>{
          <p>You requested password reset</p>
          <p> Click this <a href='http://localhost:3000/reset/${token}'>link</a>  to set a new password</p>
         `
+      }).then(result =>{
+        console.log("email sent to " +req.body.email);
       })
      })
      .catch(err =>{
