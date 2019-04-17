@@ -12,7 +12,7 @@ const flash=require('connect-flash');
 const express = require('express');
 
 const store= new MongoDBStore({
-  uri: MONGODB_URI1,
+  uri: MONGODB_URI,
   collection:'sessions'
 });
 
@@ -82,7 +82,7 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 
-mongoose.connect(MONGODB_URI1, { useNewUrlParser: true })
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true })
 .then(result=>{
   app.listen(3000);
 }).catch(err =>{
