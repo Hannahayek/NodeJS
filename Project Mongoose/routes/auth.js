@@ -24,7 +24,10 @@ router.post('/signup',check('email')
 //second argument in body will be default error message
 body('password','Please enter password with only numbers and text at least 5 chars')
 .isLength({min:5})
-.isAlphanumeric()
+.isAlphanumeric(),
+body('confirmPassword').custom((value,{req})=>{
+    if(value!==req.body.password) throw new Error('Passwords are not match');
+})
 ,authController.postSignup);
 
 router.post('/logout', authController.postLogout);
