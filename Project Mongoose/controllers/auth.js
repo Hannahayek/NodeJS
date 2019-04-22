@@ -84,12 +84,12 @@ exports.postSignup = (req, res, next) => {
   const password=req.body.password;
   const confirmPassword=req.body.confirmPassword;
   const errors=validationResult(req);
-
+ console.log(errors);
   if(!errors.isEmpty()){
     return res.status(442).render('auth/signup', {
       path: '/signup',
       pageTitle: 'Signup',
-      errorMassage:errors.array();
+      errorMassage:errors.array()[0].msg
     });  
   }
   User.findOne({email:email})
