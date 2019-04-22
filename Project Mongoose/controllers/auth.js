@@ -92,13 +92,8 @@ exports.postSignup = (req, res, next) => {
       errorMassage:errors.array()[0].msg
     });  
   }
-  User.findOne({email:email})
-  .then(userDoc =>{
-    if (userDoc){
-      req.flash('error','email already exists')
-      return res.redirect('/signup');
-    }
-    return bcrypt.hash(password,12)
+ 
+     bcrypt.hash(password,12)
     .then(hashedPassword =>{
       const user=new User({
         email:email,
@@ -119,11 +114,7 @@ exports.postSignup = (req, res, next) => {
       })
      
     })  
-    })
-    
-    .catch(err=>{
-    console.log(err);
-  })
+  
 }
 
 exports.postLogout = (req, res, next) => {
