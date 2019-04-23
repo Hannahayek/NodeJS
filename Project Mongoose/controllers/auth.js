@@ -45,7 +45,8 @@ exports.getSignup = (req, res, next) => {
     oldInput:{email:''
       ,password:'',
       confirmPassword:''
-    }
+    },
+    validationErrors:[]
   
   });
 };
@@ -107,7 +108,8 @@ exports.postSignup = (req, res, next) => {
       oldInput:{email:email
         ,password:password,
         confirmPassword:confirmPassword
-      }
+      },
+      validationErrors:errors.array()
     });  
   }
  
