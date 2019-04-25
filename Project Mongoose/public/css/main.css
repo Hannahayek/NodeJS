@@ -232,20 +232,20 @@ form {
   color: white;
 }
 
-.user-massage {
-  margin:auto;
-  width:90%;
+.user-message {
+  margin: auto;
+  width: 90%;
   border: 1px solid #4771fa;
-  padding: 1rem;
+  padding: 0.5rem;
   border-radius: 3px;
-  background-color: #8ae8fd;
-  text-align: center
-
+  background: #b9c9ff;
+  text-align: center;
 }
 
-.user-massage--error {
- border-color: red;
- background: rgb(255,176,176);
+.user-message--error {
+  border-color: red;
+  background: rgb(255, 176, 176);
+  color: red;
 }
 
 @media (min-width: 768px) {
@@ -253,16 +253,11 @@ form {
     display: flex;
   }
 
-  .user-massage {
-    width:30rem;
-   
-    
-  }
-
   #side-menu-toggle {
     display: none;
   }
+
+  .user-message {
+    width: 30rem;
+  }
 }
-
-
-

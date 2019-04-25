@@ -35,9 +35,7 @@ exports.getIndex = (req, res, next) => {
       res.render('shop/index', {
         prods: products,
         pageTitle: 'Shop',
-        path: '/',
-       
-
+        path: '/'
       });
     })
     .catch(err => {
@@ -92,7 +90,7 @@ exports.postOrder = (req, res, next) => {
       });
       const order = new Order({
         user: {
-          email:req.user.email,
+          email: req.user.email,
           userId: req.user
         },
         products: products
