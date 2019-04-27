@@ -70,8 +70,11 @@ exports.postAddProduct = (req, res, next) => {
       //   validationErrors: []
       // });
       
-        res.redirect('/500');
-
+         //res.redirect('/500');
+           //instead we redirect we add middleware for error handling in app
+           const error=new Error(err);
+           error.httpStatusCode=500;
+           return next(error);
     });
 };
 

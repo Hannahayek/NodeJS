@@ -87,6 +87,16 @@ app.get('/500',errorController.get500);
 
 app.use(errorController.get404);
 
+/* const error=new Error(err);
+error.httpStatusCode=500;
+return next(error); */
+//below will be called when we use above for error handler
+app.use((error,req,res,next)=>{
+ res.redirect(500);
+
+});
+
+
 
 mongoose.connect(MONGODB_URI1, { useNewUrlParser: true })
 .then(result=>{
