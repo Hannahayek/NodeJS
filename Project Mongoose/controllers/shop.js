@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const stripe = require('stripe')('stripe.com key');
 
 const PDFDocument = require('pdfkit');
 
@@ -165,10 +166,19 @@ exports.getCheckout=(req,res,next)=>{
 };
 
 exports.postOrder = (req, res, next) => {
+  // Token is created using Checkout or Elements!
+  // Get the payment token ID submitted by the form:
+  const token = req.body.stripeToken; // Using Express
+  let totalSum = 0;
+
   req.user
     .populate('cart.items.productId')
     .execPopulate()
-    .then(user => {
+    .then(user => {  
+      user.cart.items.forEach(p => {
+        totalSum += p.quantity * p.productId.price;
+      });
+
       const products = user.cart.items.map(i => {
         return { quantity: i.quantity, product: { ...i.productId._doc } };
       });
@@ -182,6 +192,13 @@ exports.postOrder = (req, res, next) => {
       return order.save();
     })
     .then(result => {
+      const charge = stripe.charges.create({
+        amount: totalSum * 100,
+        currency: 'usd',
+        description: 'Demo Order',
+        source: token,
+        metadata: { order_id: result._id.toString() }
+      });
       return req.user.clearCart();
     })
     .then(() => {
@@ -193,6 +210,7 @@ exports.postOrder = (req, res, next) => {
       return next(error);
     });
 };
+
 
 exports.getOrders = (req, res, next) => {
   Order.find({ 'user.userId': req.user._id })

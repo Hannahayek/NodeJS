@@ -7,7 +7,9 @@ const path = require('path');
 const csrf=require('csurf');
 const flash=require('connect-flash');
 const multer=require('multer');
-
+const shopController = require('../controllers/shop');
+const isAuth = require('../middleware/is-auth');
+const User=require('./models/user');
 
 
 const express = require('express');
@@ -35,7 +37,7 @@ const bodyParser = require('body-parser');
 
 const errorController = require('./controllers/error');
 
-const User=require('./models/user');
+
 const app = express();
 
 
@@ -73,8 +75,7 @@ app.use(
     store: store
   })
 );
-// we initiliaze csrf after session
-app.use(csrfProtection);
+
 //to add data to session should be called after session
 app.use(flash());
 
@@ -100,10 +101,17 @@ app.use((req,res,next) => {
 //middle ware to user all tokens in all views
 app.use((req,res,next)=>{
   res.locals.isAuthenticated= req.session.isLoggedIn;
-  res.locals.csrfToken=req.csrfToken();
+ 
   next();
 })
-
+//we added created router here, so we dont use csrf check for it,so csrf after it
+app.post('/create-order', isAuth, shopController.postOrder);
+// we initiliaze csrf after session
+app.use(csrfProtection);
+app.use((req,res,next)=>{
+  
+  res.locals.csrfToken=req.csrfToken();
+  next();
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
