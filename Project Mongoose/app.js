@@ -85,6 +85,7 @@ app.use((req,res,next) => {
   if(!req.session.user){
     return next();
   }
+
   User.findById(req.session.user._id)
 
   .then(user => {
@@ -108,10 +109,10 @@ app.use((req,res,next)=>{
 app.post('/create-order', isAuth, shopController.postOrder);
 // we initiliaze csrf after session
 app.use(csrfProtection);
-app.use((req,res,next)=>{
-  
-  res.locals.csrfToken=req.csrfToken();
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
   next();
+});
 app.use('/admin', adminRoutes);
 app.use(shopRoutes);
 app.use(authRoutes);
