@@ -1,11 +1,13 @@
-const express=require('express');
+const express = require('express');
+const bodyParser = require('body-parser');
 
-const feedRoutes=require('./routes/feed');
+const feedRoutes = require('./routes/feed');
 
-const app=express();
+const app = express();
 
+// app.use(bodyParser.urlencoded()); // x-www-form-urlencoded <form>
+app.use(bodyParser.json()); // application/json
 
-//any incoming request that starts with /feed will forward to feedroutes
-app.use('/feed',feedRoutes)
+app.use('/feed', feedRoutes);
 
 app.listen(8080);
