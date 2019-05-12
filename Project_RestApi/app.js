@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const feedRoutes = require('./routes/feed');
+const mongoose=require('mongoose');
 
 const app = express();
 
