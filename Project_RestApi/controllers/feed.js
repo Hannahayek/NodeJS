@@ -25,16 +25,29 @@ exports.createPost = (req, res, next) => {
       message:'Validation failed, entered data not valid',
       errors:errors.array()});
   }
+
   const title = req.body.title;
   const content = req.body.content;
-  // Create post in db
+  const Post=require('../models/post');
+const post=new Post({
+  title: title, 
+      content: content,
+      imageUrl:'images/birds.jpg'
+      ,creator:{name:'Hanna Munir'}
+    
+})
+ post
+.save()
+.then(result =>{
+  console.log(result)
   res.status(201).json({
     message: 'Post created successfully!',
-    post: { _id: new Date().toISOString(), 
-      title: title, 
-      content: content 
-      ,creator:{name:'Hanna Munir'},
-    createdAt:new Date()
-  }
+    post: result
   });
+})
+.catch(err =>{
+  console.log(err)
+});
+  
+
 };
