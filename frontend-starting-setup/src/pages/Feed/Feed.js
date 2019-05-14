@@ -107,19 +107,19 @@ class Feed extends Component {
     });
     // Set up data (with image!)
     let url = 'http://localhost:8080/feed/post';
-    let method='POST';
+    let method = 'POST';
     if (this.state.editPost) {
       url = 'URL';
     }
 
-    fetch(url,{
-      method:method,
-      headers:{
-        'Content-Type':'application/json'
+    fetch(url, {
+      method: method,
+      headers: {
+        'Content-Type': 'application/json'
       },
-      body:JSON.stringify({
-        title:postData.title,
-        content:postData.content
+      body: JSON.stringify({
+        title: postData.title,
+        content: postData.content
       })
     })
       .then(res => {
@@ -129,6 +129,7 @@ class Feed extends Component {
         return res.json();
       })
       .then(resData => {
+        console.log(resData);
         const post = {
           _id: resData.post._id,
           title: resData.post.title,
