@@ -32,14 +32,14 @@ exports.createPost = (req, res, next) => {
     error.statusCode = 422;
     throw error;
   }
-  const imageUrl = req.file.path;
+  const imageUrl = req.file.path.replace("\\","/");
   const title = req.body.title;
   const content = req.body.content;
   const post = new Post({
     title: title,
     content: content,
     imageUrl: imageUrl,
-    creator: { name: 'Maximilian' }
+    creator: { name: 'Hanna Hayek' }
   });
   post
     .save()
@@ -86,9 +86,9 @@ exports.updatePost = (req, res, next) => {
   }
   const title = req.body.title;
   const content = req.body.content;
-  let imageUrl = req.body.image;
+  let imageUrl = req.file.path.replace("\\","/");
   if (req.file) {
-    imageUrl = req.file.path;
+    imageUrl = req.file.path.replace("\\","/");
   }
   if (!imageUrl) {
     const error = new Error('No file picked.');
