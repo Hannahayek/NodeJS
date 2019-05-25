@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const feedRoutes = require('./routes/feed');
+const authRoutes = require('./routes/auth');
 const mongoose=require('mongoose');
 const path=require('path');
 const multer=require('multer');
@@ -54,6 +55,7 @@ res.statusCode(status).json({message:message})
 });
 
 app.use('/feed', feedRoutes);
+app.use('/auth', authRoutes);
 mongoose.connect('mongodb://localhost:27017/messages').then(result =>{
     app.listen(8080);
 }).catch(err =>{
