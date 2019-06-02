@@ -51,7 +51,8 @@ app.use((error,req,res,next)=>{
 console.log(error)
 const status=error.statusCode || 500;
 const message=error.message;
-res.statusCode(status).json({message:message})
+const data=error.data;
+res.statusCode(status).json({message:message,data:data})
 });
 
 app.use('/feed', feedRoutes);
