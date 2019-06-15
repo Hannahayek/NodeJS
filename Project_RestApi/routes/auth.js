@@ -25,4 +25,6 @@ router.put('/signup',[
     .not().isEmpty()
 
 ],controller.signup);
+
+router.post('/login');
 module.exports=router;
