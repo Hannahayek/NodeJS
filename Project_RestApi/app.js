@@ -58,7 +58,11 @@ res.statusCode(status).json({message:message,data:data})
 app.use('/feed', feedRoutes);
 app.use('/auth', authRoutes);
 mongoose.connect('mongodb://localhost:27017/messages').then(result =>{
-    app.listen(8080);
+   const server= app.listen(8080);
+    const io=require('socket.io')(server);
+    io.on('connection',socket =>{
+        console.log('client connected');
+    })
 }).catch(err =>{
     console.log(err);
 })
