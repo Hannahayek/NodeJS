@@ -36,7 +36,7 @@ module.exports = {
       error.code=201;
       throw error;
     }
-    const token=jwn.sign(
+    const token=jwt.sign(
       {
       userId:user._id.toString(),
       email:user.email

@@ -54,7 +54,7 @@ app.use('/graphql',graphHttp({
   schema:graphQlSchema,
   rootValue :graphResolver,
   graphiql:true,
-  formatError(err){
+  customFormatErrorFn(err){
       if(!err.originalError){
           return err;
       }
