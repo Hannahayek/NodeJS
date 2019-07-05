@@ -92,6 +92,8 @@ module.exports = {
       error.code = 401;
       throw error;
     }
+  
+  
     const post = new Post({
       title: postInput.title,
       content: postInput.content,

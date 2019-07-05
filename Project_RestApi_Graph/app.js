@@ -6,6 +6,7 @@ const multer=require('multer');
 const graphHttp=require('express-graphql')
 const graphQlSchema=require('./graphQl/schema');
 const graphResolver=require('./graphQl/resolvers');
+const auth=require('./middleware/auth');
 const app = express();
 
 const uuidv4 = require('uuid/v4')
@@ -49,6 +50,8 @@ app.use((req,res,next)=>{
     }
     next();
 })
+ 
+app.use(auth);
 
 app.use('/graphql',graphHttp({
   schema:graphQlSchema,
