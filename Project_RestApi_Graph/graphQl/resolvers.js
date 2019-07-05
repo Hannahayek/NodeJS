@@ -121,10 +121,10 @@ module.exports = {
     .sort({ createdAt: -1 })
     .populate('creator');
 
-    return { posts: posts.map(p=>{
+    return { posts: posts.map(p=> {
       return{...p._doc,_id:p._id.toString(),
-        createdAt: p.createdAt.toISOString()
-        ,updatedAt:p.updatedAt.toISOString()}
+        createdAt: p.createdAt.toISOString(),
+        updatedAt:p.updatedAt.toISOString()}
     }),totalPosts: totalPosts };
   }
 };
