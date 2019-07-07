@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const mongoose=require('mongoose');
 const path=require('path');
 const multer=require('multer');
+const fs=require('fs');
 const graphHttp=require('express-graphql')
 const graphQlSchema=require('./graphQl/schema');
 const graphResolver=require('./graphQl/resolvers');
@@ -49,9 +50,26 @@ app.use((req,res,next)=>{
         return res.sendStatus(200);
     }
     next();
-})
- 
+});
 app.use(auth);
+
+ app.put('/post-image',(req,res,next)=>{
+     if(!req.isAuth){
+         throw new Error('Not Aunthicated')
+
+     }
+     if(!req.file){
+         return res.status(200).json({message :'No file provided'});
+     }
+     if(req.body.oldPath){
+         clearImage(req.body.oldPath);
+     }
+
+     return res.status(201).json({message: 'file Stored',filePath: req.file.path })
+
+ });
+
+
 
 app.use('/graphql',graphHttp({
   schema:graphQlSchema,
@@ -86,3 +104,9 @@ mongoose.connect('mongodb://localhost:27017/messages')
 .catch(err =>{
     console.log(err);
 })
+
+
+const clearImage = filePath => {
+    filePath = path.join(__dirname, '..', filePath);
+    fs.unlink(filePath, err => console.log(err));
+  };
