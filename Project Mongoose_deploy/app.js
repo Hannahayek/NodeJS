@@ -11,6 +11,7 @@ const shopController = require('./controllers/shop');
 const isAuth = require('./middleware/is-auth');
 const User=require('./models/user');
 const helmet=require('helmet');
+const compression=require('compression');
 
 
 const express = require('express');
@@ -51,6 +52,7 @@ const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
 
 app.use(helmet());
+app.use(compression());
 
 // for filtering file types
 const fileFilter=(req,file,cb)=>{
