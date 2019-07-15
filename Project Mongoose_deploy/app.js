@@ -10,6 +10,7 @@ const multer=require('multer');
 const shopController = require('./controllers/shop');
 const isAuth = require('./middleware/is-auth');
 const User=require('./models/user');
+const helmet=require('helmet');
 
 
 const express = require('express');
@@ -48,6 +49,8 @@ app.set('views', 'views');
 const adminRoutes = require('./routes/admin');
 const shopRoutes = require('./routes/shop');
 const authRoutes = require('./routes/auth');
+
+app.use(helmet());
 
 // for filtering file types
 const fileFilter=(req,file,cb)=>{
